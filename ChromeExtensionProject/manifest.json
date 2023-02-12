@@ -5,6 +5,6 @@
     "version": "1.0",
     "action": {
       "default_popup": "views/index.html",
-      "default_icon": "images/open-book.png"
+      "default_icon": "/public/images/open-book.png"
     }
   }

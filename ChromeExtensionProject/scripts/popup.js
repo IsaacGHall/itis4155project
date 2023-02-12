@@ -1,1 +1,1 @@
-console.log("This is a popup!")
+console.log("This is an example pop-up. Delete when unused.")
