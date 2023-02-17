@@ -6,5 +6,9 @@
     "action": {
       "default_popup": "views/index.html",
       "default_icon": "/public/images/open-book.png"
-    }
+    },
+    "permissions": [
+      "storage",
+      "tabs"
+    ] 
   }
