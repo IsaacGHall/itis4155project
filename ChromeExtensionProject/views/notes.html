@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/public/css/main.css">
+        </head>
+        <div class="topnavbar">
+            <a class="active" href="/views/index.html"> Home |</a>
+            <a class="active" href="https://www.gutenberg.org/ebooks/search/?sort_order=random" target="_blank">| Random Book of the Day |
+            </a> 
+            <a class="active" href="#">| Genre Map</a>
+      </div>
+  <body>
+     
+        <label for="notes">Add your notes here:</label>
+
+        <textarea id="noteInput" name="note" rows="4" cols="50"></textarea>
+        <button id="addNote" style="background:rgb(54, 128, 103);color:white;border:none">AddNote</button>
+        <button id="clearPage" style="background:rgb(54, 128, 103);color:white;border:none">DeletAllNotes</button>
+
+        <div id="notes"></div>
+
+  </body>
+  <script src="/scripts/popup.js"></script>
+</html>
