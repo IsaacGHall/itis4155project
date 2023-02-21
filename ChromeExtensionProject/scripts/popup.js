@@ -18,12 +18,14 @@ var notesAsObjects = [];
 var keys = new Array();
 var notesDiv = document.querySelector('#notes');
 var noteInput = document.querySelector('#noteInput');
-var currentId = 0;
+var ids = [];
 
 chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs=> {
     let url = tabs[0].url;
+    alert(url);
     chrome.storage.sync.get([url], function(items) {
         keys = items[url];
+        alert(keys);
         let notes = "";
         // if(!notesAsObjects) {
         //     notes = "";
@@ -32,18 +34,17 @@ chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs=> {
         //         notes += note.note
         //     );
         // }
-        if(!keys) {
-            notes = "";
-        } else {
-            console.log(keys);
-            keys.forEach(key =>
-                chrome.storage.sync.get([key], function(items) {
-                    if(items[key]) {
-                        notesAsObjects.push(items[key]);
-                    }
-                }));
+        
+        //keys.forEach(key =>
+            chrome.storage.sync.get([keys], function(items) {
+                //notesAsObjects.push(items[key]);
+                //notes += items[key].note;
+                //alert(items[key]);
+                notesAsObjects = items;
+                alert(notesAsObjects);
+            });
+            //}));
            
-        }
         notesDiv.append(notes);
 
     });
@@ -59,30 +60,32 @@ document.querySelector('#addNote').addEventListener('click', function(e) {
     //notesAsObjects.push(newNote);
     chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs=> {
         let url = tabs[0].url;
+        let currentId = Date.now();
         json[currentId] = newNote;
-        console.log(keys);
-        let ids = [];
+
         chrome.storage.sync.get([url], function(items) {
             if(items[url]) {
                 ids = items[url];
             }
         });
-        console.log(ids);
+        
         ids.push(currentId);
-        currentId++;
         json2[url] = ids;
         // if(!json[url]) {
         //     json[url] = noteInput.value;
         // } else {
         //     json[url] += noteInput.value;
         //}
-        alert(url);
-        chrome.storage.sync.set(json, function() {
+        //chrome.storage.sync.set(json, function() {
             // stores notes in persistence storage based on id
-        });
-        chrome.storage.sync.set(json2, function() {
+        //});
+        //chrome.storage.sync.set(json2, function() {
            // stores a list or ids with key url 
-        });
+        //});
+
+        chrome.storage.sync.set({url: ids});
+
+        chrome.storage.sync.set({currentId: newNote});
 
     });
     noteInput.textContent = "";
