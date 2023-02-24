@@ -1,9 +1,12 @@
 'use strict'
 
-
 //key: url = [id1,id]  key: id1 = {note: "dfass", urls: []}
 
-
+//this would only work if i put it at the top of the page
+//need to figure out true random link per 24 hours & if this can go into a function
+const date = new Date();
+var newDateNumber = date.getFullYear() + date.getDay() * 2;
+var dailyRandomBook = document.getElementById('randomBook').href = "https://www.gutenberg.org/ebooks/"+newDateNumber;
 
 // chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs=> {
 //     let url = tabs[0].url;
@@ -19,7 +22,7 @@ var noteInput = document.querySelector('#noteInput');
 var ids = [];
 chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs=> {
     let url = tabs[0].url;
-    alert(url);
+   // alert(url);
     chrome.storage.sync.get([url], function(items) {
         keys = JSON.parse(items[url]);
         console.log(keys);
@@ -110,6 +113,7 @@ document.querySelector('#addNote').addEventListener('click', function(e) {
     noteInput.textContent = "";
 });
 
+
 document.querySelector('#clearPage').addEventListener('click', function() {
     // chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs=> {
     //     let url = tabs[0].url;
@@ -128,4 +132,9 @@ document.querySelector('#clearPage').addEventListener('click', function() {
 //     });
 
 // });
+
+//very basic 24 hour book timer
+console.log('init - line 132');
+
+
 
