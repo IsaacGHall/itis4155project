@@ -8,13 +8,6 @@ const date = new Date();
 var newDateNumber = date.getFullYear() + date.getDay() * 2;
 var dailyRandomBook = document.getElementById('randomBook').href = "https://www.gutenberg.org/ebooks/"+newDateNumber;
 
-// chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs=> {
-//     let url = tabs[0].url;
-//     chrome.storage.sync.get([url], function(items) {
-//         console.log((items[url]));
-//     });
-
-// });
 var notesAsObjects = [];
 var keys = [];
 var notesDiv = document.querySelector('#notes');
@@ -22,20 +15,12 @@ var noteInput = document.querySelector('#noteInput');
 var ids = new Array();
 chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
     let url = tabs[0].url;
-    // alert(url);
     chrome.storage.sync.get([url], function (items) {
 
         if (items[url]) {
             keys = JSON.parse(items[url]);
             console.log(keys);
             let notes = "";
-            // if(!notesAsObjects) {
-            //     notes = "";
-            // } else {
-            //     notesAsObjects.forEach(note => 
-            //         notes += note.note
-            //     );
-            // }
             chrome.storage.sync.get(keys, function (items) {
                 console.log(items);
                 keys.forEach(key => {
@@ -72,9 +57,6 @@ document.querySelector('#addNote').addEventListener('click', function (e) {
             }
         });
 
-        // chrome.storage.sync.set({url: ids});
-
-        // chrome.storage.sync.set({currentId: newNote});
 
     });
 });
@@ -102,23 +84,10 @@ function setNote(url) {
 
 
 document.querySelector('#clearPage').addEventListener('click', function () {
-    // chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs=> {
-    //     let url = tabs[0].url;
-    //     chrome.storage.sync.remove([url], function() {
-    //         // stores notes in persistence storage based on url
-    //     });
 
-    // });
     chrome.storage.sync.clear();
 });
 
-// chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs=> {
-//     let url = tabs[0].url;
-//     chrome.storage.sync.set([url], function() {
-//         // stores notes in persistence storage based on url
-//     });
-
-// });
 
 //very basic 24 hour book timer
 console.log('init - line 132');
