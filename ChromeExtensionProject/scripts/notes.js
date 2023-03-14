@@ -12,7 +12,6 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
         if (items[url]) {
             keys = JSON.parse(items[url]);
             console.log(keys);
-            let notes = "";
             chrome.storage.sync.get(keys, function (items) {
                 console.log(items);
                 keys.forEach(key => {
@@ -20,18 +19,45 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
                     notesAsObjects.push(noteObj);
                 })
                 notesAsObjects.forEach(note => {
-                    notes += note.note;
-                });
-                notesDiv.append(notes);
+                    placeNote(note, url);
+                })
             });
         }
 
     });
 
 });
+
+function placeNote(note, url) {
+    let div = document.createElement('div');
+    let p = document.createElement('p');
+    div.append(p);
+    p.textContent = note.note;
+    div.classList.add("note");
+    notesDiv.append(div);
+    let button = document.createElement('button');
+    button.addEventListener('click', function (e) {
+        chrome.storage.sync.get([url], function (item) {
+            let ids = JSON.parse(item[url]);
+            ids.splice(ids.indexOf(note.id), 1);
+            chrome.storage.sync.remove([url], function () {
+                let json = {};
+                json[url] = JSON.stringify(ids);
+                chrome.storage.sync.set(json, function() {
+                    chrome.storage.sync.remove([note.id], function() {
+                        e.target.parentElement.replaceChildren();
+                    })
+                })
+            });
+        });
+    });
+    div.append(button);
+    button.textContent = "[X]";
+    button.classList.add("deletNoteButton");
+}
+
 // on add note
 document.querySelector('#addNote').addEventListener('click', function (e) {
-    notesDiv.append(noteInput.value);
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, async tabs => {
         let url = tabs[0].url;
         chrome.storage.sync.get([url], function (items) {
@@ -56,7 +82,8 @@ document.querySelector('#addNote').addEventListener('click', function (e) {
 function setNote(url) {
     let currentId = Date.now();
     ids.push(currentId.toString());
-    let newNote = { note: noteInput.value };
+    let newNote = { note: noteInput.value, id: currentId.toString() };
+    placeNote(newNote, url);
     let currentNote = JSON.stringify(newNote);
     let currentIds = JSON.stringify(ids);
     let json = {};
@@ -98,11 +125,11 @@ document.querySelector('#clearPage').addEventListener('click', function () {
 document.querySelector('#clearAll').addEventListener('click', function () {
     alert('removed all');
     chrome.storage.sync.clear();
-                
+
 });
 
 document.querySelector('#getAll').addEventListener('click', function () {
-    chrome.storage.sync.get(null, function(items){
+    chrome.storage.sync.get(null, function (items) {
         console.log(JSON.stringify(items));
-    });   
+    });
 });

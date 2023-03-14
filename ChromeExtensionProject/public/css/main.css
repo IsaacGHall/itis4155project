@@ -82,6 +82,13 @@ h1 {
     border: none;
 }
 
+.note {
+    text-align: left;
+    border-bottom-style: groove;
+    color: white;
+    border-color: rgb(54, 128, 103);
+}
+
 textarea{
     resize: none;
     color: white;
