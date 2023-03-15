@@ -4,11 +4,20 @@
     "description": "Base Level Extension",
     "version": "1.0",
     "action": {
-      "default_popup": "views/index.html",
+      "default_popup": "/views/index.html",
       "default_icon": "/public/images/open-book.png"
     },
     "permissions": [
       "storage",
-      "tabs"
-    ] 
+      "tabs",
+      "activeTab",
+      "scripting"
+    ],
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"], 
+        "js": ["content.js"],
+        "run_at": "document_idle"
+      }
+    ]
   }

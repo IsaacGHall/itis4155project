@@ -10,6 +10,3 @@ var dailyRandomBook = document.getElementById('randomBook').href = "https://www.
 
 //very basic 24 hour book timer
 console.log('init - line 132');
-
-
-
