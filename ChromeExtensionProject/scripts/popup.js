@@ -8,8 +8,6 @@ const date = new Date();
 var newDateNumber = date.getFullYear() + date.getDay() * 2;
 var dailyRandomBook = document.getElementById('randomBook').href = "https://www.gutenberg.org/ebooks/"+newDateNumber;
 
-//very basic 24 hour book timer
-console.log('init - line 132');
 
 
 
