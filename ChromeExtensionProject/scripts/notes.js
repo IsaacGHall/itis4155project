@@ -1,5 +1,37 @@
 'use strict'
 
+
+// stores a new genre param is a string represeting one genre
+function storeGenre(genre) {
+    chrome.storage.sync.get(['genre'], function (items) {
+        let json = {};
+        let genres = [];
+        if (items['genre']) { 
+            genres = JSON.parse(items['genre']);
+            genres.put(genre);
+            json['genre'] = JSON.stringify(genres);
+            chrome.storage.sync.set(json, function() {
+            })
+        } else { // if there isnt any genres already
+            genres.put(genre);
+            json['genre'] = JSON.stringify(genres);
+            chrome.storage.sync.set(json, function() {
+            })
+        }
+    });
+}
+
+//returns list of genres
+function getGenres() {
+chrome.storage.sync.get(['genre'], function (items) {
+    if(items['genre']) {
+        genres = JSON.parse(items['genre']);
+        return genres; 
+    }
+});
+
+}
+
 var notesAsObjects = [];
 var keys = [];
 var notesDiv = document.querySelector('#notes');
@@ -27,6 +59,7 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
     });
 
 });
+
 
 function placeNote(note, url) {
     let div = document.createElement('div');
