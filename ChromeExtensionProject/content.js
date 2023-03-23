@@ -1,3 +1,6 @@
+//import { U_R_L } from '/scripts/notes.js';
+
+
 const container = document.createElement('div'); //create div
 container.id = 'note-overlay-container'; //everything is specifically named to prevent simple overrides.
 container.style.cssText = `
@@ -44,27 +47,13 @@ const createNotationButton = (text, top, left, onClick) => { //attrs used below.
   return button;
 };
 
+
 createNotationButton('★', '10px', '10px', () => {}); //text positions, and the event listeners are empty atm. 
 createNotationButton('X', '10px', null, () => {}); //setting to null will put the exit on the right.
 
-//I may integrate submit into the createNotationButton code at some point in the future, but as of right now, it stays
-const notationSubmitButton = document.createElement('button');
-notationSubmitButton.innerText = 'Submit';
-notationSubmitButton.style.color = '#fff';
-notationSubmitButton.style.backgroundColor = '#307256';
-notationSubmitButton.style.border = '1px #228B22'; 
-notationSubmitButton.style.borderRadius = '5px'; 
-notationSubmitButton.style.cursor = 'pointer';
-notationSubmitButton.style.boxShadow = '0px 2px 2px rgba(0, 0, 0, 0.25)';
-notationSubmitButton.style.fontFamily = 'CerebriSans-Regular, -apple-system, system-ui';
-notationSubmitButton.style.fontSize = '14px';
-notationSubmitButton.style.position = 'absolute';
-notationSubmitButton.style.padding = '5px 10px';
-notationSubmitButton.style.bottom = '10px';
-notationSubmitButton.style.right = '10px';
+
 //TODO -- add submit button code to submit notes to user's array of notes.
 //The above code was the first iteration, and I tried cleaning it up for readability's sake. 
-container.appendChild(notationSubmitButton); 
 
 const heading = document.createElement('div');
 heading.innerText = `Notes for ${document.title}`; //This will display each URL's "title" for the user.
@@ -91,4 +80,95 @@ textarea.placeholder = 'Enter notes here...';
 container.appendChild(textarea);
 //This needs to be adjusted for Responsive Web Design.
 
+//I may integrate submit into the createNotationButton code at some point in the future, but as of right now, it stays
+const notationSubmitButton = document.createElement('button');
+notationSubmitButton.innerText = 'Submit';
+notationSubmitButton.style.color = '#fff';
+notationSubmitButton.style.backgroundColor = '#307256';
+notationSubmitButton.style.border = '1px #228B22'; 
+notationSubmitButton.style.borderRadius = '5px'; 
+notationSubmitButton.style.cursor = 'pointer';
+notationSubmitButton.style.boxShadow = '0px 2px 2px rgba(0, 0, 0, 0.25)';
+notationSubmitButton.style.fontFamily = 'CerebriSans-Regular, -apple-system, system-ui';
+notationSubmitButton.style.fontSize = '14px';
+notationSubmitButton.style.position = 'absolute';
+notationSubmitButton.style.padding = '5px 10px';
+notationSubmitButton.style.bottom = '10px';
+notationSubmitButton.style.right = '10px';
+notationSubmitButton.addEventListener('click', function(e) {
+    //chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+      let url = `${document.title}`;
+    chrome.storage.sync.get([url], function (items) {
+        console.log(items[url]);
+        if (typeof items[url] === "undefined") {
+            ids = [];
+            setNote(url);
+        } else {
+            ids = JSON.parse(items[url]);
+            chrome.storage.sync.remove([url], function () {
+                //removes current list of ids so that same url key can be used agin
+                console.log("old ids" + ids);
+                setNote(url);
+            });
+        }
+    });
+  });
+
+
+ //});
+
+ function placeNote(note, url) {
+  let div = document.createElement('div');
+  let p = document.createElement('p');
+  div.append(p);
+  p.textContent = note.note;
+  div.classList.add("note");
+  notesDiv.append(div);
+  let button = document.createElement('button');
+  button.addEventListener('click', function (e) {
+      chrome.storage.sync.get([url], function (item) {
+          let ids = JSON.parse(item[url]);
+          ids.splice(ids.indexOf(note.id), 1);
+          chrome.storage.sync.remove([url], function () {
+              let json = {};
+              json[url] = JSON.stringify(ids);
+              chrome.storage.sync.set(json, function() {
+                  chrome.storage.sync.remove([note.id], function() {
+                      e.target.parentElement.replaceChildren();
+                  })
+              })
+          });
+      });
+  });
+  div.append(button);
+  button.textContent = "[X]";
+  button.classList.add("deletNoteButton");
+}
+
+function setNote(url) {
+  let noteInput = document.querySelector('#notationBox');
+  let currentId = Date.now();
+  ids.push(currentId.toString());
+  let newNote = { note: noteInput.value, id: currentId.toString() };
+  //placeNote(newNote, url);
+  let currentNote = JSON.stringify(newNote);
+  let currentIds = JSON.stringify(ids);
+  let json = {};
+  let json2 = {};
+  json[currentId] = currentNote;
+  json2[url] = currentIds;
+  console.log(json);
+  console.log(json2);
+  chrome.storage.sync.set(json, function () {
+      //stores notes in persistence storage based on id
+      chrome.storage.sync.set(json2, function () {
+          //stores a list or ids with key url 
+          noteInput.textContent = "";
+      });
+  });
+}
+
+ container.appendChild(notationSubmitButton); 
+
 document.body.appendChild(container); //end of document body
+

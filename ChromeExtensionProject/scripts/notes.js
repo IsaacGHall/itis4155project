@@ -56,6 +56,30 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
             });
         }
 
+        chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+        let title = tabs[0].title
+            alert(title);
+
+        chrome.storage.sync.get([title], function (items) {
+
+            if (items[title]) {
+                keys = JSON.parse(items[title]);
+                console.log(keys);
+                chrome.storage.sync.get(keys, function (items) {
+                    console.log(items);
+                    keys.forEach(key => {
+                        let noteObj = JSON.parse(items[key]);
+                        notesAsObjects.push(noteObj);
+                    })
+                    notesAsObjects.forEach(note => {
+                        placeNote(note, title);
+                    })
+                });
+            }
+    
+        });
+    });
+
     });
 
 });
