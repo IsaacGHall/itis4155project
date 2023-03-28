@@ -146,10 +146,12 @@ notationSubmitButton.addEventListener('click', function(e) {
 }
 
 function setNote(url) {
+  let verticalScrollOffset = window.pageYOffset;
+  console.log(verticalScrollOffset);
   let noteInput = document.querySelector('#notationBox');
   let currentId = Date.now();
   ids.push(currentId.toString());
-  let newNote = { note: noteInput.value, id: currentId.toString() };
+  let newNote = { note: noteInput.value, id: currentId.toString(), scroll: verticalScrollOffset };
   //placeNote(newNote, url);
   let currentNote = JSON.stringify(newNote);
   let currentIds = JSON.stringify(ids);
@@ -167,6 +169,14 @@ function setNote(url) {
       });
   });
 }
+
+
+// window.addEventListener('beforeunload', function {
+//   
+// });
+
+
+//$("html, body").animate({ scrollTop: verticalScrollOffset }, "slow");
 
  container.appendChild(notationSubmitButton); 
 
