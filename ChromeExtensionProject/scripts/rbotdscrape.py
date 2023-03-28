@@ -19,7 +19,32 @@ b = str(b).split('"')
 req2 = requests.get(f"https://books.toscrape.com/catalogue/{b[1]}")
 soup2 = BeautifulSoup(req.content, "html.parser")
 
+b[1] = b[1].replace("catalogue/", "")
+
 print(f"https://books.toscrape.com/catalogue/{b[1]}")
-#print(soup2.prettify())
+
+img = soup2.find_all("img", src=True)
+a=[]
+for i in img:
+    a = i
+i = str(i).split("\"")
+cover = i[-2]
+cover = cover.replace("..", "https://books.toscrape.com")
+print(cover)
+
+title = i[1]
+print(title)
+
+#######TO DO
+
+# display book cover
+
+genre = soup2.find('li', href="category/books/../index.html")
+print(f"Genre: {genre}")
+
+
+print("\nSummary")
+summary = soup2.findAll("div=content_inner")
+print(str(summary))
 
 
