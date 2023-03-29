@@ -9,24 +9,27 @@
         <div class="topnavbar">
               <!-- <a class="active" href="https://www.gutenberg.org/ebooks/search/?sort_order=random" target="_blank" id="randomBook">Random Book of the Day
                 </a> -->
-                 <a class="active" href="/views/RBOTD.html"> Random Book of the Day </a>
+                 <a id="randomBook" class="active" href="/views/RBOTD.html"> Random Book of the Day </a>
                 <a class="active" href="#">| Genre Map</a>
           </div>
-          <div class="ls">
-            <ul> <font size = 5>
-              <a class="button-33" href="/views/user/login.html">Login</a> 
-  
-              <a class="button-33" href="/views/user/signup.html">Sign Up</a>
-          </ul> </font> </div>
   
           <div class = "hmpg">
   
-              <p> to save your notes! Or <a class="guest" href="/views/notes.html">Continue as guest</a> </p>
+            <label for="notes">Add your notes here:</label>
+
+            <textarea id="noteInput" name="note" rows="4" cols="50"></textarea>
+            <button id="addNote" style="background:rgb(54, 128, 103);color:white;border:none">AddNote</button>
+            <button id="clearPage" style="background:rgb(54, 128, 103);color:white;border:none">DeletAllNotes</button>
+            <button id="clearAll" style="background:rgb(54, 128, 103);color:white;border:none">DEV DELETE</button>
+            <button id="getAll" style="background:rgb(54, 128, 103);color:white;border:none">DEV GET</button>
+    
+            <div id="notes"></div>
                    
           </div>
         
         <div id="notes"></div>
   </body>
   <script src="/scripts/popup.js"></script>
+  <script src="/scripts/notes.js"></script>
 </html>
 
