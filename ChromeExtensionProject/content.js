@@ -37,13 +37,18 @@ containerForNote.style.cssText = `
   margin: 10px;
 `;
 
-const createNote = (text, id, left, onClick) => {
+const createNote = (text, id, title, onClick) => {
   const div = document.createElement('div');
-  div.textContent = text;
+  const h3 = document.createElement('h3');
+  const p = document.createElement('p');
+  h3.textContent = title;
+  p.textContent = text;
   div.style.cssText =  `
   display: none;
 `;
 div.id = id;
+div.appendChild(h3);
+div.appendChild(p);
 containerForNote.appendChild(div);
 return div;
 }
@@ -107,6 +112,21 @@ textarea.style.cssText = `
 `;
 textarea.placeholder = 'Enter notes here...';
 container.appendChild(textarea);
+
+const textTitlearea = document.createElement('textarea'); //this may be subject to change as it currently is being overridden by page size.
+textTitlearea.id = 'notationTitleBox';
+textTitlearea.name = 'notationTitleBox';
+textTitlearea.rows = 1; 
+textTitlearea.cols = 55;
+textTitlearea.style.cssText = `
+  font-family: CerebriSans-Regular, -apple-system, system-ui;
+  padding: 10px;
+  background-color: white;
+  resize: none;
+  overflow: hidden;
+`;
+textTitlearea.placeholder = 'Enter title here...';
+container.appendChild(textTitlearea);
 //This needs to be adjusted for Responsive Web Design.
 
 //I may integrate submit into the createNotationButton code at some point in the future, but as of right now, it stays
@@ -179,8 +199,9 @@ function setNote(url) {
   console.log(verticalScrollOffset);
   let noteInput = document.querySelector('#notationBox');
   let currentId = Date.now();
+  let titleInput = document.querySelector('#notationTitleBox');
   ids.push(currentId.toString());
-  let newNote = { note: noteInput.value, id: currentId.toString(), scroll: verticalScrollOffset };
+  let newNote = { note: noteInput.value, id: currentId.toString(), scroll: verticalScrollOffset, title: titleInput.value};
   //placeNote(newNote, url);
   let currentNote = JSON.stringify(newNote);
   let currentIds = JSON.stringify(ids);
@@ -215,7 +236,7 @@ function getNotes() {
                     let noteObj = JSON.parse(items[key]);
                     notesAsObjects.push(noteObj);
                     scrollNums.push(noteObj.scroll)
-                    createNote(noteObj.note, noteObj.scroll, '10px', () => {});
+                    createNote(noteObj.note, noteObj.scroll, noteObj.title, () => {});
                 })
             });
           }

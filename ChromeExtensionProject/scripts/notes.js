@@ -56,29 +56,28 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
             });
         }
 
-        chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
-        let title = tabs[0].title
-            alert(title);
+    //     chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+    //     let title = tabs[0].title
 
-        chrome.storage.sync.get([title], function (items) {
+    //     chrome.storage.sync.get([title], function (items) {
 
-            if (items[title]) {
-                keys = JSON.parse(items[title]);
-                console.log(keys);
-                chrome.storage.sync.get(keys, function (items) {
-                    console.log(items);
-                    keys.forEach(key => {
-                        let noteObj = JSON.parse(items[key]);
-                        notesAsObjects.push(noteObj);
-                    })
-                    notesAsObjects.forEach(note => {
-                        placeNote(note, title);
-                    })
-                });
-            }
+    //         if (items[title]) {
+    //             keys = JSON.parse(items[title]);
+    //             console.log(keys);
+    //             chrome.storage.sync.get(keys, function (items) {
+    //                 console.log(items);
+    //                 keys.forEach(key => {
+    //                     let noteObj = JSON.parse(items[key]);
+    //                     notesAsObjects.push(noteObj);
+    //                 })
+    //                 notesAsObjects.forEach(note => {
+    //                     placeNote(note, title);
+    //                 })
+    //             });
+    //         }
     
-        });
-    });
+    //     });
+    // });
 
     });
 
@@ -89,7 +88,7 @@ function placeNote(note, url) {
     let div = document.createElement('div');
     let p = document.createElement('p');
     div.append(p);
-    p.textContent = note.note;
+    p.textContent = note.title;
     div.classList.add("note");
     notesDiv.append(div);
     let button = document.createElement('button');
@@ -106,9 +105,6 @@ function placeNote(note, url) {
                     })
                 })
             });
-        });
-        p.addEventListener('click', function(e){
-            goToNote(note);
         });
     });
     div.append(button);
@@ -194,6 +190,3 @@ document.querySelector('#getAll').addEventListener('click', function () {
     });
 });
 
-function goToNote(note){
-    window.scrollTo(0, note.scroll);
-}
