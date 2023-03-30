@@ -98,20 +98,7 @@ heading.style.cssText = `
 `;
 container.appendChild(heading);
 
-const textarea = document.createElement('textarea'); //this may be subject to change as it currently is being overridden by page size.
-textarea.id = 'notationBox';
-textarea.name = 'notationBox';
-textarea.rows = 5; 
-textarea.cols = 55;
-textarea.style.cssText = `
-  font-family: CerebriSans-Regular, -apple-system, system-ui;
-  padding: 10px;
-  background-color: white;
-  resize: none;
-  overflow: hidden;
-`;
-textarea.placeholder = 'Enter notes here...';
-container.appendChild(textarea);
+
 
 const textTitlearea = document.createElement('textarea'); //this may be subject to change as it currently is being overridden by page size.
 textTitlearea.id = 'notationTitleBox';
@@ -127,6 +114,24 @@ textTitlearea.style.cssText = `
 `;
 textTitlearea.placeholder = 'Enter title here...';
 container.appendChild(textTitlearea);
+
+
+
+const textarea = document.createElement('textarea'); //this may be subject to change as it currently is being overridden by page size.
+textarea.id = 'notationBox';
+textarea.name = 'notationBox';
+textarea.rows = 5; 
+textarea.cols = 55;
+textarea.style.cssText = `
+  font-family: CerebriSans-Regular, -apple-system, system-ui;
+  padding: 10px;
+  background-color: white;
+  resize: none;
+  overflow: hidden;
+`;
+textarea.placeholder = 'Enter notes here...';
+container.appendChild(textarea);
+
 //This needs to be adjusted for Responsive Web Design.
 
 //I may integrate submit into the createNotationButton code at some point in the future, but as of right now, it stays
