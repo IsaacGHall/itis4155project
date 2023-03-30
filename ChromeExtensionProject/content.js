@@ -19,6 +19,35 @@ container.style.cssText = `
   margin: 10px;
 `;
 
+const containerForNote = document.createElement('div'); //create div
+containerForNote.id = 'note-content-container'; //everything is specifically named to prevent simple overrides.
+containerForNote.style.cssText = `
+  background: rgb(54, 128, 103);
+  padding: 20px;
+  position: fixed;
+  bottom: 40px;
+  left: 20px;
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+  font-family: CerebriSans-Regular, -apple-system, system-ui;
+  font-size: 14px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 20; 
+  margin: 10px;
+`;
+
+const createNote = (text, id, left, onClick) => {
+  const div = document.createElement('div');
+  div.textContent = text;
+  div.style.cssText =  `
+  display: none;
+`;
+div.id = id;
+containerForNote.appendChild(div);
+return div;
+}
+
 const createNotationButton = (text, top, left, onClick) => { //attrs used below. 
   const button = document.createElement('button'); //make button
   button.innerText = text; 
@@ -97,7 +126,7 @@ notationSubmitButton.style.bottom = '10px';
 notationSubmitButton.style.right = '10px';
 notationSubmitButton.addEventListener('click', function(e) {
     //chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
-      let url = `${document.title}`;
+      let url = `${document.URL}`;
     chrome.storage.sync.get([url], function (items) {
         console.log(items[url]);
         if (typeof items[url] === "undefined") {
@@ -146,10 +175,12 @@ notationSubmitButton.addEventListener('click', function(e) {
 }
 
 function setNote(url) {
+  let verticalScrollOffset = window.pageYOffset;
+  console.log(verticalScrollOffset);
   let noteInput = document.querySelector('#notationBox');
   let currentId = Date.now();
   ids.push(currentId.toString());
-  let newNote = { note: noteInput.value, id: currentId.toString() };
+  let newNote = { note: noteInput.value, id: currentId.toString(), scroll: verticalScrollOffset };
   //placeNote(newNote, url);
   let currentNote = JSON.stringify(newNote);
   let currentIds = JSON.stringify(ids);
@@ -168,7 +199,110 @@ function setNote(url) {
   });
 }
 
+
+var notesAsObjects = [];
+var scrollNums = [];
+function getNotes() {
+    let url = `${document.URL}`;
+    chrome.storage.sync.get([url], function (items) {
+
+        if (items[url]) {
+            keys = JSON.parse(items[url]);
+            console.log(keys);
+            chrome.storage.sync.get(keys, function (items) {
+                console.log(items);
+                keys.forEach(key => {
+                    let noteObj = JSON.parse(items[key]);
+                    notesAsObjects.push(noteObj);
+                    scrollNums.push(noteObj.scroll)
+                    createNote(noteObj.note, noteObj.scroll, '10px', () => {});
+                })
+            });
+          }
+        
+      });
+    }
+
+window.addEventListener('load', function() {
+  getNotes();
+});
+window.addEventListener('scroll', function() { 
+  scrollNums.forEach(num => {
+    if(window.pageYOffset + 500 > num && window.pageYOffset - 500 < num) {
+      let element = null;
+      containerForNote.childNodes.forEach(child => {
+        if (child.id == num) {
+        element = child;
+      }
+     })
+     element.classList.add('display');
+      element.style.cssText = `
+      display: content;
+    `;
+    } else {
+      let element = null;
+      containerForNote.childNodes.forEach(child => {
+        if (child.id == num) {
+          element = child;
+        }
+       })
+       if(element.classList.contains('display')) {
+        element.classList.remove('display');
+       }
+      element.style.cssText = `
+      display: none;
+    `;
+    }
+    
+  });
+  let isNote = false;
+  containerForNote.childNodes.forEach(node => {
+    if(node.classList.value === 'display') {
+      isNote = true;
+    }
+  })
+  if(!isNote) {
+    containerForNote.style.cssText = `
+    background: rgb(54, 128, 103);
+    padding: 20px;
+    position: fixed;
+    bottom: 40px;
+    left: 20px;
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    font-family: CerebriSans-Regular, -apple-system, system-ui;
+    font-size: 14px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 20; 
+    margin: 10px;
+    display: none;
+  `;
+  } else {
+   containerForNote.style.cssText = `
+   background: rgb(54, 128, 103);
+   padding: 20px;
+   position: fixed;
+   bottom: 40px;
+   left: 20px;
+   width: 200px;
+   height: 200px;
+   border-radius: 10px;
+   font-family: CerebriSans-Regular, -apple-system, system-ui;
+   font-size: 14px;
+   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+   z-index: 20; 
+   margin: 10px;
+   display: content;
+ `; 
+  }
+});
+
+
+//$("html, body").animate({ scrollTop: verticalScrollOffset }, "slow");
+
  container.appendChild(notationSubmitButton); 
 
 document.body.appendChild(container); //end of document body
+document.body.appendChild(containerForNote);
 

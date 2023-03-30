@@ -110,7 +110,7 @@ function placeNote(note, url) {
     });
     div.append(button);
     button.textContent = "[X]";
-    button.classList.add("deletNoteButton");
+    button.classList.add("deleteNoteButton");
 }
 
 // on add note
