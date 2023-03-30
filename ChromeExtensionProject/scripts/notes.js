@@ -1,5 +1,37 @@
 'use strict'
 
+
+// stores a new genre param is a string represeting one genre
+function storeGenre(genre) {
+    chrome.storage.sync.get(['genre'], function (items) {
+        let json = {};
+        let genres = [];
+        if (items['genre']) { 
+            genres = JSON.parse(items['genre']);
+            genres.put(genre);
+            json['genre'] = JSON.stringify(genres);
+            chrome.storage.sync.set(json, function() {
+            })
+        } else { // if there isnt any genres already
+            genres.put(genre);
+            json['genre'] = JSON.stringify(genres);
+            chrome.storage.sync.set(json, function() {
+            })
+        }
+    });
+}
+
+//returns list of genres
+function getGenres() {
+chrome.storage.sync.get(['genre'], function (items) {
+    if(items['genre']) {
+        genres = JSON.parse(items['genre']);
+        return genres; 
+    }
+});
+
+}
+
 var notesAsObjects = [];
 var keys = [];
 var notesDiv = document.querySelector('#notes');
@@ -24,9 +56,34 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
             });
         }
 
+        chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+        let title = tabs[0].title
+            alert(title);
+
+        chrome.storage.sync.get([title], function (items) {
+
+            if (items[title]) {
+                keys = JSON.parse(items[title]);
+                console.log(keys);
+                chrome.storage.sync.get(keys, function (items) {
+                    console.log(items);
+                    keys.forEach(key => {
+                        let noteObj = JSON.parse(items[key]);
+                        notesAsObjects.push(noteObj);
+                    })
+                    notesAsObjects.forEach(note => {
+                        placeNote(note, title);
+                    })
+                });
+            }
+    
+        });
+    });
+
     });
 
 });
+
 
 function placeNote(note, url) {
     let div = document.createElement('div');

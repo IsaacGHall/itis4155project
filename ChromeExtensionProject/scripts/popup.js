@@ -7,7 +7,3 @@
 const date = new Date();
 var newDateNumber = date.getFullYear() + date.getDay() * 2;
 var dailyRandomBook = document.getElementById('randomBook').href = "https://www.gutenberg.org/ebooks/"+newDateNumber;
-
-
-
-
