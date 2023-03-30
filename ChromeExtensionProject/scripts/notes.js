@@ -107,6 +107,9 @@ function placeNote(note, url) {
                 })
             });
         });
+        p.addEventListener('click', function(e){
+            goToNote(note);
+        });
     });
     div.append(button);
     button.textContent = "[X]";
@@ -190,3 +193,7 @@ document.querySelector('#getAll').addEventListener('click', function () {
         console.log(JSON.stringify(items));
     });
 });
+
+function goToNote(note){
+    window.scrollTo(0, note.scroll);
+}
