@@ -107,6 +107,9 @@ function placeNote(note, url) {
             });
         });
     });
+    p.addEventListener('click', function () {
+        scrollToLocation(note);
+    })
     div.append(button);
     button.textContent = "[X]";
     button.classList.add("deleteNoteButton");
@@ -182,6 +185,20 @@ function deletAllForPage() {
     });
 }
 
+// scrolls to the note does this by injecting the script into the page 
+function scrollToLocation(note){
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, async tabs => {
+        chrome.scripting.executeScript({
+            target:{ tabId:tabs[0].id},
+            func: scroll,
+            args: [ note.scroll ],
+        })
+        });
+}
+
+function scroll(position) {
+    window.scrollTo({top: position, behavior: "smooth"});
+}
 
 
 //dev stuff dont worry about tests

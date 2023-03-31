@@ -9,8 +9,6 @@ container.style.cssText = `
   position: fixed;
   bottom: 40px;
   right: 20px;
-  width: 400px;
-  height: 200px;
   border-radius: 10px;
   font-family: CerebriSans-Regular, -apple-system, system-ui;
   font-size: 14px;
@@ -95,6 +93,7 @@ heading.style.cssText = `
   color: #fff;
   font-family: CerebriSans-Regular, -apple-system, system-ui;
   margin-top: 20px;
+  inline-size: 376px;
 `;
 container.appendChild(heading);
 
@@ -128,6 +127,7 @@ textarea.style.cssText = `
   background-color: white;
   resize: none;
   overflow: hidden;
+  display: flex;
 `;
 textarea.placeholder = 'Enter notes here...';
 container.appendChild(textarea);
@@ -149,7 +149,7 @@ notationSubmitButton.style.position = 'absolute';
 notationSubmitButton.style.padding = '5px 10px';
 notationSubmitButton.style.bottom = '10px';
 notationSubmitButton.style.right = '10px';
-notationSubmitButton.addEventListener('click', function (e) {
+notationSubmitButton.addEventListener('click', function() {
   submitNote();
 });
 
@@ -299,8 +299,7 @@ function scrollForNotes() {
     position: fixed;
     bottom: 40px;
     left: 20px;
-    width: 200px;
-    height: 200px;
+    inline-size: 200px;
     border-radius: 10px;
     font-family: CerebriSans-Regular, -apple-system, system-ui;
     font-size: 14px;
@@ -316,8 +315,7 @@ function scrollForNotes() {
    position: fixed;
    bottom: 40px;
    left: 20px;
-   width: 200px;
-   height: 200px;
+   inline-size: 200px;
    border-radius: 10px;
    font-family: CerebriSans-Regular, -apple-system, system-ui;
    font-size: 14px;
