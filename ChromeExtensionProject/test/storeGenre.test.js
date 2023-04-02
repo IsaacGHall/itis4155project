@@ -4,7 +4,7 @@ const sinon = require('sinon'); //sinon for extras like spies, stubs, and sandbo
 const sinonChrome = require('sinon-chrome'); //to recreate chrome's storage API. shout out to https://github.com/acvetkov/sinon-chrome for this module. 
 global.chrome = sinonChrome; //assign chrome as a global variable for sinon-chrome. 
 
-describe('storeGenre', () => { //desrcibe is a mocha term that groups tests together 
+describe('storeGenre', () => { //describe is a mocha term that groups tests together 
   let sandbox; //this helps create an entire fake setting for the function and chrome storage API to work. 
 
   beforeEach(function () {
@@ -32,6 +32,7 @@ describe('storeGenre', () => { //desrcibe is a mocha term that groups tests toge
   });
 });
 // store a new genre parameter as a string representing one genre. 
+// this is a copy of the function used in the notes.js file. With one sole exception shown below.
 function storeGenre(genre) {
     chrome.storage.sync.get(['genre'], function (items) {
         let json = {};
@@ -50,3 +51,4 @@ function storeGenre(genre) {
         }
     });
 }
+

@@ -56,29 +56,28 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
             });
         }
 
-        chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
-        let title = tabs[0].title
-            alert(title);
+    //     chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+    //     let title = tabs[0].title
 
-        chrome.storage.sync.get([title], function (items) {
+    //     chrome.storage.sync.get([title], function (items) {
 
-            if (items[title]) {
-                keys = JSON.parse(items[title]);
-                console.log(keys);
-                chrome.storage.sync.get(keys, function (items) {
-                    console.log(items);
-                    keys.forEach(key => {
-                        let noteObj = JSON.parse(items[key]);
-                        notesAsObjects.push(noteObj);
-                    })
-                    notesAsObjects.forEach(note => {
-                        placeNote(note, title);
-                    })
-                });
-            }
+    //         if (items[title]) {
+    //             keys = JSON.parse(items[title]);
+    //             console.log(keys);
+    //             chrome.storage.sync.get(keys, function (items) {
+    //                 console.log(items);
+    //                 keys.forEach(key => {
+    //                     let noteObj = JSON.parse(items[key]);
+    //                     notesAsObjects.push(noteObj);
+    //                 })
+    //                 notesAsObjects.forEach(note => {
+    //                     placeNote(note, title);
+    //                 })
+    //             });
+    //         }
     
-        });
-    });
+    //     });
+    // });
 
     });
 
@@ -89,7 +88,7 @@ function placeNote(note, url) {
     let div = document.createElement('div');
     let p = document.createElement('p');
     div.append(p);
-    p.textContent = note.note;
+    p.textContent = note.title;
     div.classList.add("note");
     notesDiv.append(div);
     let button = document.createElement('button');
@@ -108,33 +107,36 @@ function placeNote(note, url) {
             });
         });
     });
+    p.addEventListener('click', function () {
+        scrollToLocation(note);
+    })
     div.append(button);
     button.textContent = "[X]";
-    button.classList.add("deletNoteButton");
+    button.classList.add("deleteNoteButton");
 }
 
-// on add note
-document.querySelector('#addNote').addEventListener('click', function (e) {
-    chrome.tabs.query({ active: true, lastFocusedWindow: true }, async tabs => {
-        let url = tabs[0].url;
-        chrome.storage.sync.get([url], function (items) {
-            console.log(items[url]);
-            if (typeof items[url] === "undefined") {
-                ids = [];
-                setNote(url);
-            } else {
-                ids = JSON.parse(items[url]);
-                chrome.storage.sync.remove([url], function () {
-                    //removes current list of ids so that same url key can be used agin
-                    console.log("old ids" + ids);
-                    setNote(url);
-                });
-            }
-        });
+//  on add note
+// document.querySelector('#addNote').addEventListener('click', function (e) {
+//     chrome.tabs.query({ active: true, lastFocusedWindow: true }, async tabs => {
+//         let url = tabs[0].url;
+//         chrome.storage.sync.get([url], function (items) {
+//             console.log(items[url]);
+//             if (typeof items[url] === "undefined") {
+//                 ids = [];
+//                 setNote(url);
+//             } else {
+//                 ids = JSON.parse(items[url]);
+//                 chrome.storage.sync.remove([url], function () {
+//                     //removes current list of ids so that same url key can be used agin
+//                     console.log("old ids" + ids);
+//                     setNote(url);
+//                 });
+//             }
+//         });
 
 
-    });
-});
+//     });
+// });
 
 function setNote(url) {
     let currentId = Date.now();
@@ -160,6 +162,10 @@ function setNote(url) {
 
 
 document.querySelector('#clearPage').addEventListener('click', function () {
+        deletAllForPage();
+});
+
+function deletAllForPage() {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, async tabs => {
         let url = tabs[0].url;
         chrome.storage.sync.get([url], function (items) {
@@ -177,10 +183,26 @@ document.querySelector('#clearPage').addEventListener('click', function () {
 
 
     });
-});
+}
 
+// scrolls to the note does this by injecting the script into the page 
+function scrollToLocation(note){
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, async tabs => {
+        chrome.scripting.executeScript({
+            target:{ tabId:tabs[0].id},
+            func: scroll,
+            args: [ note.scroll ],
+        })
+        });
+}
+
+function scroll(position) {
+    window.scrollTo({top: position, behavior: "smooth"});
+}
+
+
+//dev stuff dont worry about tests
 document.querySelector('#clearAll').addEventListener('click', function () {
-    alert('removed all');
     chrome.storage.sync.clear();
 
 });
@@ -190,3 +212,4 @@ document.querySelector('#getAll').addEventListener('click', function () {
         console.log(JSON.stringify(items));
     });
 });
+
