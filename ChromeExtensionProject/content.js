@@ -15,30 +15,46 @@ container.style.cssText = `
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
   z-index: 20; 
   margin: 10px;
+  overflow-wrap: anywhere;
+  line-height: normal;
+  max-height: 33%;
+  max-width: 20%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const containerForNote = document.createElement('div'); //create div
 containerForNote.id = 'note-content-container'; //everything is specifically named to prevent simple overrides.
 containerForNote.style.cssText = `
-  background: rgb(54, 128, 103);
-  padding: 20px;
-  position: fixed;
-  bottom: 40px;
-  left: 20px;
-  width: 200px;
-  height: 200px;
-  border-radius: 10px;
-  font-family: CerebriSans-Regular, -apple-system, system-ui;
-  font-size: 14px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-  z-index: 20; 
-  margin: 10px;
+background: rgb(54, 128, 103);
+padding: 20px;
+position: fixed;
+bottom: 40px;
+right: 20px;
+border-radius: 10px;
+font-family: CerebriSans-Regular, -apple-system, system-ui;
+font-size: 14px;
+box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+z-index: 20; 
+margin: 10px;
+disply: none;
 `;
 
 const createNote = (text, id, title, onClick) => {
   const div = document.createElement('div');
   const h3 = document.createElement('h3');
   const p = document.createElement('p');
+  p.style.cssText = `
+  font-family: CerebriSans-Regular, -apple-system, system-ui;
+  margin: 0px;
+`
+  h3.style.cssText = `
+  font-family: CerebriSans-Regular, -apple-system, system-ui;
+  margin: 0px;
+  font-size: 17px;
+  text-align: center;
+  color: white;
+`
   h3.textContent = title;
   p.textContent = text;
   div.style.cssText = `
@@ -93,7 +109,6 @@ heading.style.cssText = `
   color: #fff;
   font-family: CerebriSans-Regular, -apple-system, system-ui;
   margin-top: 20px;
-  inline-size: 376px;
 `;
 container.appendChild(heading);
 
@@ -201,6 +216,9 @@ function placeNote(note, url) {
 
 function setNote(url) {
   let verticalScrollOffset = window.pageYOffset;
+  while(scrollNums.includes(verticalScrollOffset)) {
+    verticalScrollOffset++;
+  }
   console.log(verticalScrollOffset);
   let noteInput = document.querySelector('#notationBox');
   let currentId = Date.now();
@@ -216,11 +234,15 @@ function setNote(url) {
   json2[url] = currentIds;
   console.log(json);
   console.log(json2);
+  noteInput.value = "";
+  titleInput.value = "";
+  noteInput.placeholder = 'Enter notes here...';
+  titleInput.placeholder = 'Enter title here...';
   chrome.storage.sync.set(json, function () {
     //stores notes in persistence storage based on id
     chrome.storage.sync.set(json2, function () {
       //stores a list or ids with key url 
-      noteInput.textContent = "";
+      getNotes();
     });
   });
 }
@@ -294,18 +316,6 @@ function scrollForNotes() {
   })
   if (!isNote) {
     containerForNote.style.cssText = `
-    background: rgb(54, 128, 103);
-    padding: 20px;
-    position: fixed;
-    bottom: 40px;
-    left: 20px;
-    inline-size: 200px;
-    border-radius: 10px;
-    font-family: CerebriSans-Regular, -apple-system, system-ui;
-    font-size: 14px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    z-index: 20; 
-    margin: 10px;
     display: none;
   `;
   } else {
@@ -322,6 +332,12 @@ function scrollForNotes() {
    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
    z-index: 20; 
    margin: 10px;
+   overflow-wrap: anywhere;
+   overflow-y: auto;
+   line-height: normal;
+   max-height: 33%;
+   max-width: 20%;
+   color: white;
    display: content;
  `;
   }
