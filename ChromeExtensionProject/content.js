@@ -247,10 +247,14 @@ function setNote(url) {
   });
 }
 
-
 var notesAsObjects = [];
 var scrollNums = [];
 function getNotes() {
+  notesAsObjects = new Array();
+  scrollNums = new Array();
+  while (containerForNote.firstChild) {
+    containerForNote.removeChild(containerForNote.lastChild);
+  }
   let url = `${document.URL}`;
   chrome.storage.sync.get([url], function (items) {
 
@@ -264,6 +268,7 @@ function getNotes() {
           notesAsObjects.push(noteObj);
           scrollNums.push(noteObj.scroll)
           createNote(noteObj.note, noteObj.scroll, noteObj.title, () => { });
+          scrollForNotes();
         })
       });
     }
