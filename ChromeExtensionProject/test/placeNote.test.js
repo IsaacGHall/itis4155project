@@ -1,8 +1,7 @@
+//these lines, some are necessary, but some are not. Boilerplate dependencies.  
 const { expect } = require('chai');
 const chai = require('chai');
-/*const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
-
 const chaiAsPromised = require('chai-as-promised'); //extra chai functionality.
 const sinonChrome = require('sinon-chrome');
 const { JSDOM } = require('jsdom');
@@ -12,10 +11,42 @@ chai.use(chaiAsPromised);
 global.window = new JSDOM().window; //creates dummy document
 global.document = window.document; //these will be needed for any document.() testing
 global.chrome = sinonChrome; //for any chrome storage things. This is just copy pasted from storeGenre.test.js in verbatim
-//there will need to be more tests implemented. This is just a prototype for placeNote, just to get functionality for tests. 
-*/
-const { placeNote } = require('../scripts/notes'); //calls placeNote using nodeJS module.export.
 
+//isolated function from notes.js
+
+function placeNote(note, url, notesDiv) {
+  let div = document.createElement('div');
+  let p = document.createElement('p');
+  div.append(p);
+  
+  p.textContent = note.title;
+  div.classList.add("note");
+  notesDiv.append(div);
+  let button = document.createElement('button');
+  button.addEventListener('click', function (e) {
+      chrome.storage.sync.get([url], function (item) {
+          let ids = JSON.parse(item[url]);
+          ids.splice(ids.indexOf(note.id), 1);
+          chrome.storage.sync.remove([url], function () {
+              let json = {};
+              json[url] = JSON.stringify(ids);
+              chrome.storage.sync.set(json, function() {
+                  chrome.storage.sync.remove([note.id], function() {
+                      e.target.parentElement.replaceChildren();
+                  })
+              })
+          });
+      });
+  });
+  p.addEventListener('click', function () {
+      scrollToLocation(note);
+  })
+  div.append(button);
+  button.textContent = "[X]";
+  button.classList.add("deleteNoteButton");
+}
+
+//function testing playground
 describe('placeNote', () => { //this describes the placeNote function for testing purposes
     it('should create a new div element', () => {  
       const note = { //creates a note object

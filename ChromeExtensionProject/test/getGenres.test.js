@@ -4,6 +4,15 @@ const sinon = require('sinon'); //sinon for extras like spies, stubs, and sandbo
 const sinonChrome = require('sinon-chrome'); //to recreate chrome's storage API. shout out to https://github.com/acvetkov/sinon-chrome for this module.
 global.chrome = sinonChrome; //assign chrome as a global variable for sinon-chrome.
 
+getGenres();
+function getGenres() {
+    chrome.storage.sync.get(['genre'], function (items) {
+        if(items['genre']) {
+            genres = JSON.parse(items['genre']);
+            return genres;
+        }
+    });
+}
 
  describe('#getGenres()', function() {
 
@@ -30,12 +39,3 @@ global.chrome = sinonChrome; //assign chrome as a global variable for sinon-chro
       })
   })
 })
-getGenres();
-function getGenres() {
-    chrome.storage.sync.get(['genre'], function (items) {
-        if(items['genre']) {
-            genres = JSON.parse(items['genre']);
-            return genres;
-        }
-    });
-}
