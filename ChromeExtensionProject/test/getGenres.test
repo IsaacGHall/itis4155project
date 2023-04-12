@@ -1,0 +1,32 @@
+const chai = require('chai'); //assertion library for testing
+const expect = chai.expect; //import expect, functionally the same as should if you see it used by other testers.
+const sinon = require('sinon'); //sinon for extras like spies, stubs, and sandboxes.
+const sinonChrome = require('sinon-chrome'); //to recreate chrome's storage API. shout out to https://github.com/acvetkov/sinon-chrome for this module.
+global.chrome = sinonChrome; //assign chrome as a global variable for sinon-chrome.
+
+
+ describe('#getGenres()', function() {
+
+      context('Testing if function will return a list of stored genres', function() {
+        it('Should have history inside of the stored genres', function() {
+
+
+        const genre = "history";
+        chrome.storage.sync.set.resetHistory();
+        chrome.storage.sync.get.withArgs(['genre'], function (items) {
+        let json = {};
+        let genres = [];
+        if (items['genre']) {
+            genres = JSON.parse(items['genre']);
+            genres.put(genre);
+            json['genre'] = JSON.stringify(genres);
+            chrome.storage.sync.set(json, function() {
+            })
+           }
+
+        expect(genres).to.equal('history');
+
+        })
+      })
+  })
+})
