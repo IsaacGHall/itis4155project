@@ -21,16 +21,44 @@ rbotdButton.addEventListener('click', () => {
 
       // Generate HTML code to display the book details, including a link to the book's details page
       const bookDetails = `
-      <div class="book">
-        <img src="${coverUrl}" alt="${title}">
-        <div class="details">
-          <h2>${title}</h2>
-          <p><strong>Author(s):</strong> ${author}</p>
-          <p><strong>Genre(s):</strong> ${genre}</p>
-          <a href="${book.infoLink}" target="_blank" rel="noopener">See more details on Google Books</a>
-        </div>
+      <style>
+          .bookinfo {
+          display: grid;
+          grid-template-columns: 40% 60%;
+        }
+        .cover {
+          flex: 50%;
+        }
+          .details {
+          flex: 50%;
+        }
+          a {
+            color: rgb(54, 128, 103);
+        }
+      </style>
+
+      <div class="bookinfo">
+      <div class="cover">
+      <img src="${coverUrl}" alt="${title}" style = "padding:10px">   </div>
+      
+      <div class="details">
+      <h2><a href = "${book.infoLink} "target="_blank" rel="noopener">${title}</a></h2>
+      <p><strong>Author(s):</strong> ${author}</p>
+      <p><strong>Genre(s):</strong> ${genre}</p>   </div>
       </div>
       `;
+
+
+    //   <div class="book">
+    //   <img src="${coverUrl}" alt="${title}">
+    //   <div class="details">
+    //     <h2>${title}</h2>
+    //     <p><strong>Author(s):</strong> ${author}</p>
+    //     <p><strong>Genre(s):</strong> ${genre}</p>
+    //     <a href="${book.infoLink}" target="_blank" rel="noopener">See more details on Google Books</a>
+    //   </div>
+    // </div>
+    // `;
 
 
       // Insert the book details into the output div
