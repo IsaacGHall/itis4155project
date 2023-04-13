@@ -88,6 +88,7 @@ function placeNote(note, url) {
     let div = document.createElement('div');
     let p = document.createElement('p');
     div.append(p);
+    
     p.textContent = note.title;
     div.classList.add("note");
     notesDiv.append(div);
@@ -212,4 +213,3 @@ document.querySelector('#getAll').addEventListener('click', function () {
         console.log(JSON.stringify(items));
     });
 });
-
