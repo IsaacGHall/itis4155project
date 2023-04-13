@@ -19,17 +19,19 @@ rbotdButton.addEventListener('click', () => {
       const genre = book.categories ? book.categories.join(', ') : '';
       const coverUrl = book.imageLinks ? book.imageLinks.thumbnail : '';
 
-      // Generate HTML code to display the book details
+      // Generate HTML code to display the book details, including a link to the book's details page
       const bookDetails = `
-        <div class="book">
-          <img src="${coverUrl}" alt="${title}">
-          <div class="details">
-            <h2>${title}</h2>
-            <p><strong>Author(s):</strong> ${author}</p>
-            <p><strong>Genre(s):</strong> ${genre}</p>
-          </div>
+      <div class="book">
+        <img src="${coverUrl}" alt="${title}">
+        <div class="details">
+          <h2>${title}</h2>
+          <p><strong>Author(s):</strong> ${author}</p>
+          <p><strong>Genre(s):</strong> ${genre}</p>
+          <a href="${book.infoLink}" target="_blank" rel="noopener">See more details on Google Books</a>
         </div>
+      </div>
       `;
+
 
       // Insert the book details into the output div
       document.querySelector('#bookDetails').innerHTML = bookDetails;
