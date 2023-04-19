@@ -24,7 +24,12 @@ function deleteAllForPage() {
                 //Empty list for URL
             } else {
                 try {
-                    let idsRemove = JSON.parse(items[url]);
+
+                //TESTING STRINGIFY - MB
+                    toBeBroken = JSON.stringify(items[url]);
+
+                    //let idsRemove = JSON.parse(items[url]);
+                    let idsRemove = JSON.parse(toBeBroken);
                     chrome.storage.sync.remove(idsRemove, function () {
                         console.log("Removed: ", idsRemove);
                         console.log("chrome storage remove args (should not be empty):",chrome.storage.sync.remove.args);
@@ -57,6 +62,9 @@ describe('deleteAllForPage', function() {
     const notesDiv = document.createElement('div');
     chrome.tabs.query.callsArgWith(1,[{url}]);
     chrome.storage.sync.get.withArgs([url]).yields({ [url] : 'value'});
+
+    //check if it is queuring the url
+    //console.log("What is this query doing? ", chrome.tabs.query.callsArgWith(1,[{url}]));
 
     deleteAllForPage();
     //pass (for now)
