@@ -26,10 +26,14 @@ function deleteAllForPage() {
                 try {
 
                 //TESTING STRINGIFY - MB
+                    console.log(url, " BEFORE");
                     toBeBroken = JSON.stringify(items[url]);
 
                     //let idsRemove = JSON.parse(items[url]);
                     let idsRemove = JSON.parse(toBeBroken);
+
+                    console.log(idsRemove, " AFTER");
+
                     chrome.storage.sync.remove(idsRemove, function () {
                         console.log("Removed: ", idsRemove);
                         console.log("chrome storage remove args (should not be empty):",chrome.storage.sync.remove.args);
