@@ -1,4 +1,3 @@
-//import { U_R_L } from '/scripts/notes.js';
 
 
 const container = document.createElement('div'); //create div
@@ -23,6 +22,27 @@ container.style.cssText = `
   flex-direction: column;
 `;
 
+function onDrag({movementX, movementY}) {
+  let getStyle = window.getComputedStyle(container);
+  let left = parseInt(getStyle.left);
+  let top = parseInt(getStyle.top);
+  container.style.left = `${left + movementX}px`
+  container.style.top = `${top + movementY}px`
+  container.style.bottom = "";
+  container.style.right = "";
+
+}
+
+container.addEventListener("mousedown", ()=> {
+  container.style.userSelect = "none";
+  container.style.cursor = "move";
+  container.addEventListener("mousemove", onDrag);
+});
+document.addEventListener("mouseup", ()=> {
+  container.style.userSelect = "";
+  container.style.cursor = "";
+  container.removeEventListener("mousemove", onDrag);
+});
 const containerForNote = document.createElement('div'); //create div
 containerForNote.id = 'note-content-container'; //everything is specifically named to prevent simple overrides.
 containerForNote.style.cssText = `
@@ -37,7 +57,7 @@ font-size: 14px;
 box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 z-index: 20; 
 margin: 10px;
-disply: none;
+display: none;
 `;
 
 const createNote = (text, id, title, onClick) => {
@@ -97,8 +117,10 @@ const createNotationButton = (text, top, left, onClick) => { //attrs used below.
 
 
 createNotationButton('★', '10px', '10px', () => { }); //text positions, and the event listeners are empty atm. 
-createNotationButton('X', '10px', null, () => { }); //setting to null will put the exit on the right.
+let minimize = createNotationButton('-', '10px', null, () => { }); //setting to null will put the exit on the right.
+// minimize.addEventListener('click', function() {
 
+// });
 
 //TODO -- add submit button code to submit notes to user's array of notes.
 //The above code was the first iteration, and I tried cleaning it up for readability's sake. 
@@ -330,7 +352,6 @@ function scrollForNotes() {
    position: fixed;
    bottom: 40px;
    left: 20px;
-   inline-size: 200px;
    border-radius: 10px;
    font-family: CerebriSans-Regular, -apple-system, system-ui;
    font-size: 14px;
@@ -347,7 +368,6 @@ function scrollForNotes() {
  `;
   }
 }
-
 
 container.appendChild(notationSubmitButton);
 
