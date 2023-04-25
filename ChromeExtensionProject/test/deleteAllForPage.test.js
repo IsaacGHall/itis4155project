@@ -19,6 +19,7 @@ function deleteAllForPage() {
         console.log('url:', url);
         chrome.storage.sync.get([url], function (items) {
             console.log('items:', items);
+            //this is backwards
             console.log("items[url]:",items[url]);
             if (typeof items[url] === "undefined") {
                 //Empty list for URL
@@ -26,22 +27,36 @@ function deleteAllForPage() {
                 try {
 
                 //TESTING STRINGIFY - MB
-                    console.log(url, " BEFORE");
-                    toBeBroken = JSON.stringify(items[url]);
+                //starting to fix top to bottom
+                    console.log(url, " IN DELETE FUNC || BEFORE");
+                    urlString = JSON.stringify(items[url]);
 
                     //let idsRemove = JSON.parse(items[url]);
-                    let idsRemove = JSON.parse(toBeBroken);
+                    let idsRemove = JSON.parse(urlString);
 
-                    console.log(idsRemove, " AFTER");
-
+                    console.log(idsRemove, " N DELETE FUNC || AFTER");
+                    /*
+                    //testing delete function
+                    chrome.storage.local.remove([items,idsRemove],function(){
+                         var error = chrome.runtime.lastError;
+                            if (error) {
+                                console.error(error);
+                            }
+                        });
+                        */
+                    //deprecated
+                    //i'm not sure if you can use console log insid of these statements
+                    console.log("starting remove cycle");
+                    console.log("url before remove cycle what the HECK is this doing" + url + " okay thats that, here is idsremoved " + idsRemove);
                     chrome.storage.sync.remove(idsRemove, function () {
-                        console.log("Removed: ", idsRemove);
-                        console.log("chrome storage remove args (should not be empty):",chrome.storage.sync.remove.args);
                         chrome.storage.sync.remove([url]);
-                        
                         //Removes notes from URL 
                         notesDiv.replaceChildren();
                     });
+                     console.log("Removed: ", idsRemove);
+                     console.log("chrome storage remove args (should not be empty):",chrome.storage.sync.remove.args);
+                    console.log("ending cycle")
+;
                 } catch (e) {
                     console.error('Parsing error:', e);
                 }
@@ -72,7 +87,7 @@ describe('deleteAllForPage', function() {
 
     deleteAllForPage();
     //pass (for now)
-    console.log("chrome storage remove args (should not be empty):",chrome.storage.sync.remove.args);
+    console.log("INSIDE TEST FUNCTION: chrome storage remove args (should not be empty):",chrome.storage.sync.remove.args);
     expect(chrome.storage.sync.remove.calledWith([url])).to.be.true;
 
     expect(notesDiv.children).to.be.empty;
