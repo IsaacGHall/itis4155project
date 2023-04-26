@@ -160,6 +160,7 @@ textTitlearea.name = 'notationTitleBox';
 textTitlearea.rows = 1;
 textTitlearea.cols = 55;
 textTitlearea.style.cssText = `
+  max-width: 100%;
   font-family: CerebriSans-Regular, -apple-system, system-ui;
   padding: 10px;
   background-color: white;
@@ -177,6 +178,7 @@ textarea.name = 'notationBox';
 textarea.rows = 5;
 textarea.cols = 55;
 textarea.style.cssText = `
+  max-width: 100%;
   font-family: CerebriSans-Regular, -apple-system, system-ui;
   padding: 10px;
   background-color: white;
