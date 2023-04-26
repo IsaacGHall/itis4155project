@@ -66,6 +66,7 @@ describe('placeNote', () => { //this describes the placeNote function for testin
     it('should set the text content of the p element to the note text', () => {
         const note = {
           id: 'note1',
+          title: 'this is a test title',
           note: 'This is a test note',
         };
         const url = 'https://example.com';
@@ -74,7 +75,7 @@ describe('placeNote', () => { //this describes the placeNote function for testin
         placeNote(note, url, notesDiv);
       
         const p = notesDiv.querySelector('div.note p'); //checks p element is set to note text. 
-        expect(p.textContent).to.equal(note.note); 
+        expect(p.textContent).to.equal(note.title);
       });
 
 
