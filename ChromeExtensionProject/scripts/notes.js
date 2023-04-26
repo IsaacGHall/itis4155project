@@ -118,28 +118,28 @@ function placeNote(note, url) {
     button.classList.add("deleteNoteButton");
 }
 
-//  on add note
-// document.querySelector('#addNote').addEventListener('click', function (e) {
-//     chrome.tabs.query({ active: true, lastFocusedWindow: true }, async tabs => {
-//         let url = tabs[0].url;
-//         chrome.storage.sync.get([url], function (items) {
-//             console.log(items[url]);
-//             if (typeof items[url] === "undefined") {
-//                 ids = [];
-//                 setNote(url);
-//             } else {
-//                 ids = JSON.parse(items[url]);
-//                 chrome.storage.sync.remove([url], function () {
-//                     //removes current list of ids so that same url key can be used agin
-//                     console.log("old ids" + ids);
-//                     setNote(url);
-//                 });
-//             }
-//         });
+ // on add note -- note from Isaac: I uncommented this since we actually did not need this to be de-anonymized. We found a separate solution for our issues with testing. 
+document.querySelector('#addNote').addEventListener('click', function (e) {
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, async tabs => {
+         let url = tabs[0].url;
+         chrome.storage.sync.get([url], function (items) {
+             console.log(items[url]);
+            if (typeof items[url] === "undefined") {
+                 ids = [];
+                 setNote(url);
+             } else {
+                 ids = JSON.parse(items[url]);
+                 chrome.storage.sync.remove([url], function () {
+                     //removes current list of ids so that same url key can be used agin
+                     console.log("old ids" + ids);
+                     setNote(url);
+                 });
+             }
+         });
 
 
-//     });
-// });
+     });
+ });
 
 function setNote(url) {
     let currentId = Date.now();

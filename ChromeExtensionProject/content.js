@@ -166,6 +166,8 @@ textTitlearea.style.cssText = `
   background-color: white;
   resize: none;
   overflow: hidden;
+  color: grey;
+  background-color: white;
 `;
 textTitlearea.placeholder = 'Enter title here...';
 container.appendChild(textTitlearea);
@@ -185,6 +187,8 @@ textarea.style.cssText = `
   resize: none;
   overflow: hidden;
   display: flex;
+  color: grey;
+  background-color: white;
 `;
 textarea.placeholder = 'Enter notes here...';
 container.appendChild(textarea);
