@@ -1,4 +1,5 @@
-//these lines, some are necessary, but some are not. Boilerplate dependencies.  
+//these lines, some are necessary, but some are not. Boilerplate dependencies.
+
 const { expect } = require('chai');
 const chai = require('chai');
 const sinonChai = require('sinon-chai');
