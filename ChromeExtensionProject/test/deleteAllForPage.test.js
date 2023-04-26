@@ -72,10 +72,12 @@ describe('deleteAllForPage', function() {
 
     deleteAllForPage();
     //pass (for now)
-    console.log("chrome storage remove args (should not be empty):",chrome.storage.sync.remove.args);
-    expect(chrome.storage.sync.remove.calledWith([url])).to.be.true;
-
-    expect(notesDiv.children).to.be.empty;
+     // Wait for chrome.storage.sync.remove() to complete
+     setTimeout(function() {
+      expect(chrome.storage.sync.remove.args).to.equal([[url]]);
+      expect(notesDiv.children).to.be.empty;
+      done();
+    }, 10); //this timeout is done because chrome storage works asynchronously, and our tests for this work synchronously. This waiting period allows chrome.storage.remove to function properly. 
 
 
     });    
