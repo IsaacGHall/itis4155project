@@ -6,20 +6,19 @@
 <body>
     <h1></h1>
     <form id="userForm">
-        <div id="genre-questions-container">
-            <label>
-                <input type="radio" class="radio-button" name="question1" value="1" onchange="submitForm();"> <!--runs submitForm-->
-                <span class="radio-button-label">Yes</span>
-            </label>
-            <label>
-                <input type="radio" class="radio-button" name="question1" value="0" onchange="submitForm();"> <!--runs submitForm-->
-                <span class="radio-button-label">No</span>
-            </label>
-        
-
-   
+        <div id="genre-question-container">
+          <h1 id="genre-question"></h1>
+          <label>
+            <input type="radio" class="radio-button" name="question" value="1"> <!--Updated this to actually work. CSP doesn't like inlines so the function was moved to form.js-->
+            <span class="radio-button-label">Yes</span>
+          </label>
+          <label>
+            <input type="radio" class="radio-button" name="question" value="0">
+            <span class="radio-button-label">No</span>
+          </label>
         </div>
-    </form>
+      </form>
+<div id="generation-container"><h1></h1></div> <!--If i make this "genre-question-container, it breaks stuff. So it works this way instead. Pretty sure this is intended."-->
     <script src="/scripts/form.js"></script>
 </body>
 </html>

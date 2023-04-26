@@ -1,4 +1,6 @@
 'use strict'
+const clearStorageButton = document.getElementById("clearStorage");  //this is added functionality for dev stuff so that we can clear storage for form.html.
+//IDK IF THIS BREAKS STUFF EDWIN SORRY.
 
 
 // stores a new genre param is a string represeting one genre
@@ -213,3 +215,16 @@ document.querySelector('#getAll').addEventListener('click', function () {
         console.log(JSON.stringify(items));
     });
 });
+
+clearStorageButton.addEventListener("click", clearUserResponses); //event listener for index html
+
+function clearUserResponses() { 
+    chrome.storage.sync.clear(function() { //clear out of web...
+        console.log("Sync storage cleared.");
+      });
+      chrome.storage.local.clear(function() { //and local.
+        console.log("Local storage cleared.");
+      });
+      window.location.href = "index.html"; //kicked back to index html.
+      alert("Storage cleared."); //just so you know
+    }
