@@ -87,7 +87,7 @@ const createNote = (text, id, title, onClick) => {
   return div;
 }
 
-const createNotationButton = (text, top, left, onClick) => { //attrs used below. 
+const createNotationButton = (text, top, left) => { //attrs used below. 
   const button = document.createElement('button'); //make button
   button.innerText = text;
   button.style.cssText = `
@@ -96,7 +96,7 @@ const createNotationButton = (text, top, left, onClick) => { //attrs used below.
     cursor: pointer;
     font-family: CerebriSans-Regular, -apple-system, system-ui;
     font-size: ${text === '★' ? '20px' : '16px'}; 
-    font-weight: ${text === 'X' ? 'bold' : 'normal'};
+    font-weight: ${text === '-' ? 'bold' : 'normal'};
     position: absolute;
     background-color: #307256;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
@@ -107,18 +107,36 @@ const createNotationButton = (text, top, left, onClick) => { //attrs used below.
     top: ${top};
     ${left ? `left: ${left};` : `right: 10px;`}
   `; //in the above text, strict equality and ternary operators (if-else) are used to distinguish between the two symbols while consolidating code.
-  button.addEventListener('click', onClick);
   //add exit button code here to minimize application into a smaller window.
   //also add favorite button code here which saves URLs and associates them with webpage titles to each user in a favorites list.
-  container.appendChild(button); //appendChild tells the DOM div to display inside div.
+  //container.appendChild(button); //appendChild tells the DOM div to display inside div.
   //this will be expanded and iterated on in the future. 
   return button;
 };
 
 
-createNotationButton('★', '10px', '10px', () => { }); //text positions, and the event listeners are empty atm. 
-let minimize = createNotationButton('-', '10px', null, () => { }); //setting to null will put the exit on the right.
-// minimize.addEventListener('click', function() {
+//createNotationButton('★', '10px', '10px', () => { }); //text positions, and the event listeners are empty atm. 
+const minimize = createNotationButton('-', '10px', null); //setting to null will put the exit on the right.
+container.appendChild(minimize);
+const maximize = createNotationButton('+', '15px', '10px');
+const divForMax = document.createElement('div');
+divForMax.style.cssText = `
+  padding: 20px;
+  position: fixed;
+  bottom: 40px;
+  right: 20px;
+`;
+divForMax.append(maximize);
+divForMax.style.display = 'none';
+maximize.addEventListener('click', function() {
+  container.style.display = '';
+  divForMax.style.display = 'none';
+});
+minimize.addEventListener('click', function() { 
+  divForMax.style.display = '';
+  container.style.display = 'none';
+});
+
 
 // });
 
@@ -142,6 +160,7 @@ textTitlearea.name = 'notationTitleBox';
 textTitlearea.rows = 1;
 textTitlearea.cols = 55;
 textTitlearea.style.cssText = `
+  max-width: 100%;
   font-family: CerebriSans-Regular, -apple-system, system-ui;
   padding: 10px;
   background-color: white;
@@ -159,6 +178,7 @@ textarea.name = 'notationBox';
 textarea.rows = 5;
 textarea.cols = 55;
 textarea.style.cssText = `
+  max-width: 100%;
   font-family: CerebriSans-Regular, -apple-system, system-ui;
   padding: 10px;
   background-color: white;
@@ -373,4 +393,4 @@ container.appendChild(notationSubmitButton);
 
 document.body.appendChild(container); //end of document body
 document.body.appendChild(containerForNote);
-
+document.body.appendChild(divForMax);
