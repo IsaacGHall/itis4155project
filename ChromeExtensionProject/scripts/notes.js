@@ -1,4 +1,6 @@
 'use strict'
+const clearStorageButton = document.getElementById("clearStorage");  //this is added functionality for dev stuff so that we can clear storage for form.html.
+//IDK IF THIS BREAKS STUFF EDWIN SORRY.
 
 
 // stores a new genre param is a string represeting one genre
@@ -116,28 +118,28 @@ function placeNote(note, url) {
     button.classList.add("deleteNoteButton");
 }
 
-//  on add note
-// document.querySelector('#addNote').addEventListener('click', function (e) {
-//     chrome.tabs.query({ active: true, lastFocusedWindow: true }, async tabs => {
-//         let url = tabs[0].url;
-//         chrome.storage.sync.get([url], function (items) {
-//             console.log(items[url]);
-//             if (typeof items[url] === "undefined") {
-//                 ids = [];
-//                 setNote(url);
-//             } else {
-//                 ids = JSON.parse(items[url]);
-//                 chrome.storage.sync.remove([url], function () {
-//                     //removes current list of ids so that same url key can be used agin
-//                     console.log("old ids" + ids);
-//                     setNote(url);
-//                 });
-//             }
-//         });
+ // on add note -- note from Isaac: I uncommented this since we actually did not need this to be de-anonymized. We found a separate solution for our issues with testing. 
+document.querySelector('#addNote').addEventListener('click', function (e) {
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, async tabs => {
+         let url = tabs[0].url;
+         chrome.storage.sync.get([url], function (items) {
+             console.log(items[url]);
+            if (typeof items[url] === "undefined") {
+                 ids = [];
+                 setNote(url);
+             } else {
+                 ids = JSON.parse(items[url]);
+                 chrome.storage.sync.remove([url], function () {
+                     //removes current list of ids so that same url key can be used agin
+                     console.log("old ids" + ids);
+                     setNote(url);
+                 });
+             }
+         });
 
 
-//     });
-// });
+     });
+ });
 
 function setNote(url) {
     let currentId = Date.now();
@@ -213,3 +215,16 @@ document.querySelector('#getAll').addEventListener('click', function () {
         console.log(JSON.stringify(items));
     });
 });
+
+clearStorageButton.addEventListener("click", clearUserResponses); //event listener for index html
+
+function clearUserResponses() { 
+    chrome.storage.sync.clear(function() { //clear out of web...
+        console.log("Sync storage cleared.");
+      });
+      chrome.storage.local.clear(function() { //and local.
+        console.log("Local storage cleared.");
+      });
+      window.location.href = "index.html"; //kicked back to index html.
+      alert("Storage cleared."); //just so you know
+    }

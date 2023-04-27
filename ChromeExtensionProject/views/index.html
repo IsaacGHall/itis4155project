@@ -1,3 +1,4 @@
+<!DOCTYPE html> <!--stop quirks mode.-->
 <html>
     <head>
         <link rel="stylesheet" href="/public/css/main.css">
@@ -8,21 +9,23 @@
         <i><font size = 1 >An e-reader extension designed to improve your experiences reading!</font></i>
     
         <div class="topnavbar">
-              
+                 <a class="active" href="test.html"> SIMSCORE TESTING ONLY </a> <!--comment this out after finishing testing for functionality.-->
                  <a class="active" href="rbotd.html"> Random Book of the Day </a>
-                 <a class="active" href="javascript:void(0)" id="openFunction">| Genre Map</a> <!--the use of void(0) here is to trigger code, specifically openGenreMap, which for now doesn't actually function for opening Genre map.-->
+                 <a class="active" href="javascript:void(0)" id="openGenreMap">| Genre Map</a> <!--the use of void(0) here is to trigger code, specifically openGenreMap, which for now doesn't actually function for opening Genre map.-->
+                 <a class="active" href="dictionary.html">| Dictionary |</a>
 
           </div>
   
           <div class = "hmpg">
   
-            <label for="notes">Add your notes here:</label>
 
-            <textarea id="noteInput" name="note" rows="4" cols="50"></textarea>
-            <button id="addNote" style="background:rgb(54, 128, 103);color:white;border:none">AddNote</button>
-            <button id="clearPage" style="background:rgb(54, 128, 103);color:white;border:none">DeletAllNotes</button>
-            <button id="clearAll" style="background:rgb(54, 128, 103);color:white;border:none">DEV DELETE</button>
-            <button id="getAll" style="background:rgb(54, 128, 103);color:white;border:none">DEV GET</button>
+            <!--<textarea id="noteInput" name="note" rows="4" cols="50"></textarea>
+            <button id="addNote" style="background:rgb(54, 128, 103);color:white;border:none">AddNote</button>-->
+            <button id="clearPage" style="background:rgb(54, 128, 103);color:white;border:none">Delete All Notes</button>
+            <!-- <button id="clearAll" style="background:rgb(54, 128, 103);color:white;border:none">DEV DELETE</button>
+            <button id="getAll" style="background:rgb(54, 128, 103);color:white;border:none">DEV GET</button> -->
+            <button id="clearStorage" style="background:rgb(54, 128, 103);color:white;border:none">CLR STORAGE</button> <!-- added clear storage. works, use at your own risk.-->
+            <!--it works for local and global storage-->
     
             <div id="notes"></div>
                    
@@ -32,5 +35,7 @@
   </body>
   <script src="/scripts/popup.js"></script>
   <script src="/scripts/notes.js"></script>
+  <script src="/scripts/dictionary.js"></script>
 </html>
+
 
