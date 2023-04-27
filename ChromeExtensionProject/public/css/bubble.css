@@ -1,0 +1,70 @@
+/* bubble.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+  }
+  
+  svg#bubble-map {
+    display: block;
+    margin: 0 auto;
+    background-color: white;
+    border: 1px solid #ccc;
+  }
+  
+  .bubble {
+    stroke: #999;
+    stroke-width: 1px;
+    fill-opacity: 0.8;
+    cursor: pointer;
+  }
+  
+  .bubble:hover {
+    stroke: #333;
+    stroke-width: 2px;
+    fill-opacity: 1;
+  }
+  
+  .book-info {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+    z-index: 10;
+    font-size: 14px;
+    max-width: 300px;
+  }
+  
+  .book-info img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .book-info p {
+    margin: 5px 0;
+  }
+  
+  .amazon-link {
+    display: block;
+    background-color: #f90;
+    color: white;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+  
+  .amazon-link:hover {
+    background-color: #f60;
+    text-decoration: none;
+  }
+  
+  #content {
+    max-width: 1200px;
+  }
