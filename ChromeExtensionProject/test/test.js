@@ -1,6 +1,6 @@
 
 
-
+//moved from /scripts to /test
 
 var expect = require('chai').expect;
 
