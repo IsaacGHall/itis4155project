@@ -9,7 +9,7 @@ const genres = [ //this CANNOT be random. It must be the same in order to proper
     'Thriller',
     'Humor',
     'Graphic Novel'
-];
+]; 
 
 let currentGenreIndex = 0; 
 let userResponses = []; //empty user response array to be converted to userVector later. 
