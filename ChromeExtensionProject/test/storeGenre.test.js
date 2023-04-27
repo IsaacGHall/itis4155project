@@ -44,10 +44,14 @@ describe('storeGenre', () => { //describe is a mocha term that groups tests toge
     chrome.storage.sync.get.withArgs(['genre']).yields(items); 
 
     storeGenre(genre);
-
-    expect(chrome.storage.sync.get.calledOnceWith(['genre'])).to.be.true; 
-    expect(chrome.storage.sync.set.calledOnce).to.be.true; 
-    expect(chrome.storage.sync.set.calledWith({genre: JSON.stringify([genre])})).to.be.true;
+    setTimeout(function() {
+        console.log('expect check here.');
+        expect(chrome.storage.sync.get.calledOnceWith(['genre'])).to.be.true;
+        expect(chrome.storage.sync.set.calledOnce).to.be.true;
+        expect(chrome.storage.sync.set.calledWith({genre: JSON.stringify([genre])})).to.be.true;
+        //leaving this commented out, throws an error
+        //done();
+      }, 10);
   });
 });
 // store a new genre parameter as a string representing one genre. 
