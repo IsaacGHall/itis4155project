@@ -7,7 +7,7 @@ const genres = [ //this CANNOT be random. It must be the same in order to proper
     'Fantasy',
     'Horror',
     'Thriller',
-    'Young Adult',
+    'Humor',
     'Graphic Novel'
 ];
 
@@ -99,7 +99,7 @@ function displayGenreQuestions() {
               'Fond of',
               'What about',
               'Do you prefer',
-              'Do you gravitate toward'
+              'Do you gravitate towards'
             ];
         
             const genre = genres[currentGenreIndex]; //access genres

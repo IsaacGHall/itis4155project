@@ -168,7 +168,7 @@ textTitlearea.style.cssText = `
   overflow: hidden;
   color: grey;
   background-color: white;
-`;
+`; //fixed so i can see the text. this is universal so should work for everyone.
 textTitlearea.placeholder = 'Enter title here...';
 container.appendChild(textTitlearea);
 
@@ -189,7 +189,7 @@ textarea.style.cssText = `
   display: flex;
   color: grey;
   background-color: white;
-`;
+`; //fixed so i can see the text. this is universal so should work for everyone.
 textarea.placeholder = 'Enter notes here...';
 container.appendChild(textarea);
 
