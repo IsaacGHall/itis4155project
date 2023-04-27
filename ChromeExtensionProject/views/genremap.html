@@ -1,20 +1,115 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <meta charset="utf-8">
+  <title>Genre Map</title>
+<!-- this is all commented out rn. probably will get moved to a js file or something. its 4 am-->
+  <!-- Load the D3.js library -->
+  <!--<script src="https://d3js.org/d3.v6.min.js"></script> -->
+  <!-- Add the following line to load the Chrome extension API -->
+  <!-- <script src="chrome-extension://your-extension-id/chrome-extension-api.js"></script> -->
+</head>
+<body>
+  <!-- Create an SVG element to hold the chart -->
+ <!-- <svg width="960" height="600"></svg>
+  <script>
+    function updateVisualization(users) {
+  // Count the number of users who read each genre
+  const genreMap = {};
+
+  users.forEach(user => {
+    user.ebooks.forEach(genre => {
+      if (!genreMap[genre]) {
+        genreMap[genre] = 0;
+      }
+      genreMap[genre]++;
+    });
+  });
+
+  // Convert the genre map to an array of objects
+  const data = Object.entries(genreMap).map(([genre, count]) => ({ genre, count }));
+
+  // Create the bubble chart using the D3.js pack layout
+  const svg = d3.select("svg");
+  const width = +svg.attr("width");
+  const height = +svg.attr("height");
+
+  const pack = data => d3.pack()
+    .size([width - 2, height - 2])
+    .padding(3)
+    (d3.hierarchy({ children: data })
+      .sum(d => d.count));
+
+  const root = pack(data);
+
+  // Assign colors to the bubbles using a categorical color scale
+  const color = d3.scaleOrdinal(data.map(d => d.genre), d3.schemeCategory10);
+
+  // Add the bubbles to the chart
+  svg.selectAll("circle")
+    .data(root.descendants().slice(1))
+    .join("circle")
+    .attr("fill", d => color(d.data.genre))
+    .attr("cx", d => d.x)
+    .attr("cy", d => d.y)
+    .attr("r", d => d.r);
+
+  // Add the genre names to the bubbles
+  svg.selectAll("text")
+    .data(root.descendants().slice(1))
+    .join("text")
+    .attr("text-anchor", "middle")
+    .attr("x", d => d.x)
+    .attr("y", d => d.y)
+    .attr("dy", "0.35em")
+    .text(d => d.data.genre);
+}
+
+
+    // Fetch user's ebook genres
+    function fetchUserGenres(callback) {
+      chrome.storage.sync.get("userGenres", function(result) {
+        const userGenres = result.userGenres || [];
+        callback(userGenres);
+      });
+    }
+
+    // Save user's ebook genres
+    function saveUserGenres(userGenres) {
+      chrome.storage.sync.set({ userGenres: userGenres }, function() {
+        console.log("User genres saved.");
+      });
+    }
+
+    function fetchDataAndUpdateVisualization() {
+      fetchUserGenres(function(userGenres) {
+        // Generate recommendations using your LightFM-based Flask server
+        fetch("http://localhost:5000/recommend", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ user_genres: userGenres })
+        })
+          .then(response => response.json())
+          .then(data => {
+            const recommendations = data.recommendations.map(rec => rec.title);
+            const users = [
+              { name: "User", ebooks: userGenres },
+              { name: "Recommendations", ebooks: recommendations }
+            ];
+
+            // Update the visualization with the received recommendations
+            updateVisualization(users);
+          });
+      });
+    }
+
+    // Call the fetchDataAndUpdateVisualization function to fetch data and update the visualization
+    fetchDataAndUpdateVisualization();
   
-  <head>
-    <meta charset="UTF-8">
-    <title>Genre Map</title>
-    <link rel="stylesheet" href="/public/css/bubble.css">
-    <script src="../scripts/cosineCalc.js" defer></script>  
-    <script src="../scripts/genremap.js" defer></script>
-  </head>
-  <body>
-    <h1>Book Recommendations</h1>
-    <button id="generate-recommendations">Generate Recommendations</button> <!--so i can easily get stuff done.-->
-    <div id="output"></div>
-    <svg id="bubble-map" width="100%" height="800"></svg>
-    <div id="book-details"></div>
-    <script src="/scripts/d3.v7.min.js"></script>
-    
-  </body>
+  </script>
+-->
+<a>test THIS SHOULD DISPLAY</a>
+</body>
 </html>
