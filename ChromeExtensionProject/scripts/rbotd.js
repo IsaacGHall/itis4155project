@@ -16,7 +16,12 @@ rbotdButton.addEventListener('click', () => {
       const book = data.items[randomIndex].volumeInfo;
       const title = book.title;
       const author = book.authors.join(', ');
-      const genre = book.categories ? book.categories.join(', ') : '';
+      const genre1 = book.categories ? book.categories.join(', ') : '';
+      const genre0 = genre1.toLowerCase();
+      const r = genre0.slice(1);
+      const f = genre1.charAt(0)
+      const genre = f + r;
+
       const coverUrl = book.imageLinks ? book.imageLinks.thumbnail : '';
 
       // Generate HTML code to display the book details, including a link to the book's details page
