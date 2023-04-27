@@ -23,21 +23,23 @@ const genres = [ //this CANNOT be random. It must be the same in order to proper
   }
   
   async function fetchGenreVectors(genres, userVector) {
-    const genreVectors = []; 
+    const genreVectors = [];
     for (const genre of genres) { //iterate each genre in genres array
       try {
-        const encodedGenre = encodeURIComponent(`subject:${genre}`);  //encode genre string so books api plays nicely 
-        const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodedGenre}&maxResults=40&key=AIzaSyBpX2SuynVFbjboDJamz2a7OEtXBh2LHLc`); //this catches the genre of the top 40 results of the 10 genre array.
-        const data = await response.json(); 
-        const genreVector = await generateGenreVector(genre, userVector); //await code to run
-        const books = data.items || []; // handle case where no books are returned for the genre, and stops any errors if undefined, instead define as empty.
-        genreVectors.push({ genre, vector: genreVector, books }); //add to genreVectors array, and book data. 
+        const apiKey = 'AIzaSyBpX2SuynVFbjboDJamz2a7OEtXBh2LHLc'; //this is better practice to just save the api key rather than use it in URL.
+        const encodedGenre = encodeURIComponent(`subject:${genre}`); //encode genre string so books api plays nicely
+        const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodedGenre}&maxResults=40&orderBy=relevance&sortBy=newest&ket=${apiKey}`); //fix to api key. This also requests by relevance, and newest.
+        const data = await response.json();
+        const genreVector = await generateGenreVector(genre, userVector);
+        const books = data.items ? data.items : []; //takes all books requested, and the "?" is a ternary operator. its an alternative to an if-else. checks if data.items exists, and assigns to data.items, and if not ":" executes data.items to be an empty array
+        genreVectors.push({ genre, vector: genreVector, books }); 
       } catch (error) {
-        console.error('Error fetching books for genre:', genre, error); 
+        console.error('Error fetching books for genre:', genre, error);
       }
     }
     return genreVectors;
   }
+  
 
   //now, need to compare two non-zero vectors of dot product. Imagine it being similar to measuring the angle between two lines. 
   
@@ -74,20 +76,26 @@ const genres = [ //this CANNOT be random. It must be the same in order to proper
       console.log("User vector:", userVector); //should be filled 
       for (let i = 0; i < genreVectors.length; i++) { //O(mn)
         console.log('Genre vector for', genres[i], genreVectors[i].vector); //iterate line above over each genre vector in the genreVectors array, and print.
-        let similarityScore = cosineSimilarity(userVector, genreVectors[i].vector);  //calc sim score
-        recommendations.push({ genre: genres[i], score: similarityScore, books: genreVectors[i].books }); //add object containing array info
-        console.log("Similarity Score:", similarityScore); //log simscore. testing only
-      }
-      recommendations.sort((a, b) => b.score - a.score); //descending order. 
-
-      //redone for proof of concept. Only display the 1st book rn
-      recommendations.forEach(recommendation => {
-        console.log(`Top book in the "${recommendation.genre}" genre:`);
-        if (recommendation.score > 0 && recommendation.books.length > 0) { //if score not 0 or NAN(?), and books exist, display.
-          console.log(recommendation.books[0].volumeInfo.title);
-        } else {
-          console.log("No book data to display."); //no book :(
+        try { //used a try catch here to keep things clean w console logs.
+          let similarityScore = cosineSimilarity(userVector, genreVectors[i].vector);  //calc sim score
+          recommendations.push({ genre: genres[i], score: similarityScore, books: genreVectors[i].books }); //changed this so that books are just called from saved.
+          console.log("Similarity Score:", similarityScore); //log simscore. testing only
+        } catch (error) {
+          console.error('Error generating recommendation for genre:', genres[i], error);
         }
+      } 
+      recommendations.sort((a, b) => b.score - a.score); //descending order. 
+  
+      //now correctly logs top 40 most popular recent books for the genres selected.
+      recommendations.forEach(recommendation => {
+        console.log(`Top books in the "${recommendation.genre}" genre:`);
+        if (recommendation.score > 0 && recommendation.books && recommendation.books.length > 0) { //if score not 0 or NAN(?), and books exist, display.
+            recommendation.books.forEach((book, index) => {
+              console.log(`${index + 1}. ${book.volumeInfo.title}`);  //loop over array and display the books. 
+            });
+          } else {
+            console.log("No book data to display."); //no book :(
+          }
+        });
       });
-    });
-  }
+    };
