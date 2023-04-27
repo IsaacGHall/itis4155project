@@ -2,11 +2,16 @@ const url = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 const result = document.getElementById("result");
 const btn = document.getElementById("search-btn");
 
+
+// Event listener for search button click
 btn.addEventListener("click", () => {
+    //'w' is assigned to the word entered in the search box
     let w = document.getElementById("inp-word").value;
+    //looks for word using freeDictionaryAPI 
     fetch(`${url}${w}`)
         .then((response) => response.json())
         .then((data) => {
+            //Results for 'w' including: word, part of speech, pronunciation, definition 
             result.innerHTML = `
             <div class="word">
             <p> <font size = 4> <b>${w}</b>  </font> <i> <font size = 1>
@@ -19,6 +24,7 @@ btn.addEventListener("click", () => {
                 </p>
                 `;
         })
+        //Results if 'w' does not exist in the dictionary
         .catch(() => {
             result.innerHTML = `<h3 class="error">Couldn't Find The Word</h3>`;
         });

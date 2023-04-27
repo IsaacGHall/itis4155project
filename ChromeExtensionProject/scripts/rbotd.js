@@ -16,6 +16,7 @@ rbotdButton.addEventListener('click', () => {
       const book = data.items[randomIndex].volumeInfo;
       const title = book.title;
       const author = book.authors.join(', ');
+      //formats the genre so the first letter is capitalizesd and the rest are lowercase
       const genre1 = book.categories ? book.categories.join(', ') : '';
       const genre0 = genre1.toLowerCase();
       const r = genre0.slice(1);
@@ -53,17 +54,6 @@ rbotdButton.addEventListener('click', () => {
       </div>
       `;
 
-
-    //   <div class="book">
-    //   <img src="${coverUrl}" alt="${title}">
-    //   <div class="details">
-    //     <h2>${title}</h2>
-    //     <p><strong>Author(s):</strong> ${author}</p>
-    //     <p><strong>Genre(s):</strong> ${genre}</p>
-    //     <a href="${book.infoLink}" target="_blank" rel="noopener">See more details on Google Books</a>
-    //   </div>
-    // </div>
-    // `;
 
 
       // Insert the book details into the output div

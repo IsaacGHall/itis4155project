@@ -134,15 +134,16 @@ textarea{
     transform: scale(1.05) rotate(-1deg);
 }
 
+/* Styling for the word lookup search button */
 .lookup {
     color: white;
     background-color: rgb(65, 67, 82);
     border-color:rgb(65, 67, 82);
   }
 
-
+/* Styling for word lookup search box*/
   .uh{
     color: white;
     background-color: rgb(39, 40, 50);
     border-color:rgb(65, 67, 82);
-
+  }
