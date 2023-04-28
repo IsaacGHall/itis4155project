@@ -1,4 +1,4 @@
-/*
+
 
 const chai = require('chai'); //assertion library for testing
 const expect = chai.expect; //import expect, functionally the same as should if you see it used by other testers.
@@ -37,7 +37,7 @@ function deleteAllForPage() {
                     let idsRemove = JSON.parse(urlString);
 
                     console.log(idsRemove, " N DELETE FUNC || AFTER");
-                    /*
+                    
                     //testing delete function
                     chrome.storage.local.remove([items,idsRemove],function(){
                          var error = chrome.runtime.lastError;
@@ -45,7 +45,7 @@ function deleteAllForPage() {
                                 console.error(error);
                             }
                         });
-                        */
+                        
                     //deprecated
                     //i'm not sure if you can use console log insid of these statements
                     console.log("starting remove cycle");

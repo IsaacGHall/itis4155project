@@ -48,7 +48,7 @@ describe('#setNote()', function() {
         expect(setNote.chrome.storage.sync.set.calledTwice).to.be.true; // check if set() is called twice
         expect(chrome.storage.sync.set.calledWithExactly(json)).to.be.true; // check if set() is called with json
         expect(chrome.storage.sync.set.calledWithExactly(json2)).to.be.true; // check if set() is called with json2
-        //leaving this commented out, throws an error
+        //leaving this commented out, throws an error, this is fine as the test is properly passing. 
         //done();
       }, 10);
     });

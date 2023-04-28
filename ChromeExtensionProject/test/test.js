@@ -1,7 +1,7 @@
 
 
 //moved from /scripts to /test
-
+//This was a function test framework, and it doesn't NEED to be tested.
 var expect = require('chai').expect;
 
 describe('#createUser()', function() {
