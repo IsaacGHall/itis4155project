@@ -12,7 +12,7 @@ document.getElementById("openGenreMap").addEventListener("click", function() { /
         const userVector = result.userVector;  //user vector will be added to recommendation stuff later. 
 
         if (userVector && userVector.length === 10) { //checks for user vector saved to profile, if so, go to genre map.
-            window.location.href = "genremap.html"; //you did it
+            window.location.href = "recommendations.html"; //you did it
         } else {
             window.location.href = "form.html"; //else finish the form. 
         }

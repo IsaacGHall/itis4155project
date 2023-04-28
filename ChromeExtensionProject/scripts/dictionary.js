@@ -1,3 +1,4 @@
+document.addEventListener("DOMContentLoaded", () => {
 const url = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 const result = document.getElementById("result");
 const btn = document.getElementById("search-btn");
@@ -28,4 +29,5 @@ btn.addEventListener("click", () => {
         .catch(() => {
             result.innerHTML = `<h3 class="error">Couldn't Find The Word</h3>`;
         });
+});
 });

@@ -56,18 +56,18 @@ function submitForm() { //functionality to submit radio button forms.
           const form = document.getElementById('userForm'); //to hide
           form.style.display = 'none'; // hide the radio buttons
           const message = document.createElement('h1'); //to display
-          message.textContent = 'Generating Genre Map...'; //display
+          message.textContent = 'Generating recommendations...'; //display
           const container = document.getElementById('generation-container'); //dont touch this. 
           container.appendChild(message); // display a message
           setTimeout(() => {
-            window.location.href = "genremap.html";
+            window.location.href = "recommendations.html";
           }, 3000); //arbitrary timeout to make you think things are happening :)
         });
       }
     }
 
 document.getElementById("userForm").addEventListener("submit", function(event) {
-    event.preventDefault(); //this makes sure that the form data must be done if the user wants to access genre map. 
+    event.preventDefault(); //this makes sure that the form data must be done if the user wants to access recommendations. 
 
     const formData = new FormData(event.target); //references form data and prepares it for submission. Provides a way to easily construct a set of key/value pairs representing form fields and their values. 
     const userVector = [];
@@ -76,7 +76,7 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
         const value = formData.get(`question${i}`);
         userVector.push(value === "1" ? 1 : 0); //this uses 1 as yes for the vector and 0 for no. 
     }
-        window.location.href = "genremap.html"; //after vector is saved, user can just access their genremap. 
+        window.location.href = "recommendations.html"; //after vector is saved, user can just access their recommendations. 
     });
 
 function createGenreHeading(genre, question) { //this is created to make  my life easier down the road

@@ -119,7 +119,7 @@ function placeNote(note, url) {
 }
 
  // on add note -- note from Isaac: I uncommented this since we actually did not need this to be de-anonymized. We found a separate solution for our issues with testing. 
-document.querySelector('#addNote').addEventListener('click', function (e) {
+/*document.querySelector('#addNote').addEventListener('click', function (e) {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, async tabs => {
          let url = tabs[0].url;
          chrome.storage.sync.get([url], function (items) {
@@ -140,7 +140,7 @@ document.querySelector('#addNote').addEventListener('click', function (e) {
 
      });
  });
-
+*/
 function setNote(url) {
     let currentId = Date.now();
     ids.push(currentId.toString());
@@ -205,7 +205,7 @@ function scroll(position) {
 
 
 //dev stuff dont worry about tests
-document.querySelector('#clearAll').addEventListener('click', function () {
+/*document.querySelector('#clearAll').addEventListener('click', function () {
     chrome.storage.sync.clear();
 
 });
@@ -215,7 +215,7 @@ document.querySelector('#getAll').addEventListener('click', function () {
         console.log(JSON.stringify(items));
     });
 });
-
+*/
 clearStorageButton.addEventListener("click", clearUserResponses); //event listener for index html
 
 function clearUserResponses() { 
