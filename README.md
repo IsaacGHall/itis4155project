@@ -3,7 +3,7 @@ E-reader concept for ITIS 4155
 Insturtions for installing a chrome extension are found below.
 https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/
 
-First Click on the puzzle piece icon and click magage extensions from the menu that apears.
+First Click on the puzzle piece icon in the top right of a chrome browser and click magage extensions from the menu that apears.
 
 Then turn on developer mode with the toggle in the top right corner.
 
